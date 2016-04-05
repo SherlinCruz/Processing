@@ -1,11 +1,9 @@
 import ddf.minim.*;
 Ball ball = new Ball(); 
-
-
 Minim minim;
-
 AudioSample sound;
-
+int paddleY = 470;
+int paddleE  =30;
 void setup() {
 
   size(500, 500);
@@ -14,12 +12,9 @@ void setup() {
 
   sound = minim.loadSample("pong.wav");
 }
-
-
 void draw() {
 
   background(0, 0, 0);
-
 
   fill(100, 20, 10);
 
@@ -29,42 +24,80 @@ void draw() {
 
   fill(255, 255, 255);
 
-  rect(mouseX, 450, 80, 50);
+  rect(mouseX,paddleY, 80, paddleE);
 
-  ball.update();
+ball.update();
+
+ println(ball.x);
 }
 class Ball {
 
   int size= 50;
 
-  int x = 100, y = 100;
+  int x = 250, y = 300;
 
-  int speedX=5; 
+  int speedX=10; 
 
-  int speedY=5; 
+  int speedY=10; 
+  
+  void update(){
+    
+  x = x + speedX; 
+   
+  y = y + speedY;
+  
+     if (x > width ) {
+       println("if X working");
+       
+       speedX = -speedX ;
 
-
-
-  void update() {
-
-    x = x+speedX;
-
-    y = y + speedY; 
-
-    if (x > 500 || x < 0) {
-      speedX =- speedY;
     }
+      if (x < 0) {
 
-    if (y > 500 || y < 0 ) {
-     speedY = -speedX; 
+       
+       speedX = -speedX ;
+
     }
-
-    if (y== 500) {
-
-      sound.trigger();
-      x +=-x;
-      y +=-y;
+    
+    if(y<0){
+      println("height working");
+speedY = -speedY;
+      
     }
-  }
+    
+if(y==500){
+ 
+  println("if Y working");
+    speedY = -speedY;
+    sound.trigger();  
+}  
+
 }
 
+
+}
+
+
+
+
+
+
+class Paddle{
+boolean intersects(int ballX, int ballY, int paddleX, int paddleY, int paddleLength) {
+if (ballY > paddleY - paddleLength && ballX > paddleX && ballX < paddleX + paddleLength)
+return true;
+else 
+return false;
+}
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+}
